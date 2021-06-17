@@ -1,0 +1,16 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/CleanFunctions      # Tutorial clean functions
+#------------------------------------------------------------------------------
+
+cleanCase0
+
+# Remove surface and features
+rm -f PyFoam*
+rm -rf Gnuplotting.analyzed
+rm -f *.png
+rm -f constant/cellID
+rm -f constant/origCellID
+
+mkdir log
+#------------------------------------------------------------------------------

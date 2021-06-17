@@ -1,0 +1,21 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+# copy obstacle surface from models directory. Convert the mesh to foam and check mesh quality
+# \cp /fsx/example-case/models/mesh_study/cylinder_medium.msh obstacle.msh
+runApplication gmshToFoam obstacle.msh
+runApplication changeDictionary
+runApplication checkMesh
+
+# Renumbers the cell list in order to reduce the bandwidth
+runApplication decomposePar
+runParallel renumberMesh -dict system/renumberMeshDict  -overwrite -noFunctionObjects
+
+# Resetting initial
+restore0Dir -processor
+
+# Solving
+pyFoamPlotRunner.py --with-all  mpirun -np 8 $(getApplication) -parallel > log.pisoFoam 2>&1
+

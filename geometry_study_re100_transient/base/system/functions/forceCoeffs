@@ -1,0 +1,42 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+forceCoeffs
+{
+    type            forceCoeffs;
+    libs            (forces);
+
+    writeControl    timeStep;
+    writeInterval    1;
+
+    // Dump to file
+    log             yes;
+
+    // Sampled patches
+    patches         (obstacle);
+
+    // Name of fields
+    pName p;
+	Uname U;
+
+    // Density
+    rho             rhoInf;      // Indicates incompressible
+    rhoInf          1.225;       // Required when rho = rhoInf
+
+    // Force coefficient calcualtion constants
+    liftDir         (0 1 0);
+    dragDir         (1 0 0);
+    CofR            (0 0 0);
+    pitchAxis       (0 0 1);
+    magUInf         1.0;
+    lRef            1.0;        // Reference length
+    Aref            1.0;        // Reference area 1 for 2D
+}
+
+
+// ************************************************************************* //

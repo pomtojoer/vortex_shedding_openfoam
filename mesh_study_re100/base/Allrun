@@ -1,0 +1,21 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+# Setting pardict
+decompDict="-decomposeParDict system/decomposeParDict.hierarchical"
+
+# copy obstacle surface from models directory. Convert the mesh to foam and check mesh quality
+\cp /fsx/example-case/models/mesh_study/cylinder.msh obstacle.msh
+runApplication gmshToFoam obstacle.msh
+runApplication changeDictionary
+runApplication checkMesh
+
+# Renumbers the cell list in order to reduce the bandwidth
+runApplication renumberMesh -dict system/renumberMeshDict  -overwrite -noFunctionObjects
+
+# Resetting initial
+restore0Dir
+
+pyFoamPlotRunner.py --with-all -–hardcopy $(getApplication) 

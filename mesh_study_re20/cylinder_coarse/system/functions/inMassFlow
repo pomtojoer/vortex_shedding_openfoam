@@ -1,0 +1,36 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+inMassFlow
+{
+    type            surfaceRegion;
+    libs            (fieldFunctionObjects);
+
+    writeControl    timeStep;
+    writeInterval    1;
+
+    // Dump to file
+    log             yes;
+    writeFields     false;
+
+    // Sampled patches
+    regionType      patch;
+    name            in;
+
+    // Operation type
+    operation       sum;
+
+    // Field to apply to
+    fields
+    (
+        phi
+    );
+}
+
+
+// ************************************************************************* //
